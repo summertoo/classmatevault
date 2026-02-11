@@ -1,5 +1,5 @@
 module classmate_vault::promise;
-    use sui::coin::{Self, Coin};
+    use sui::coin::Coin;
     use sui::sui::SUI;
     use sui::clock::Clock;
     use sui::event;
@@ -47,7 +47,7 @@ module classmate_vault::promise;
         clock: &Clock,
         ctx: &mut TxContext
     ) {
-        let amount = coin.value();
+        let amount = coin::value(coin);
         let promise = Promise {
             id: object::new(ctx),
             creator: ctx.sender(),
@@ -73,7 +73,7 @@ module classmate_vault::promise;
     }
 
     /// 签到，重置计时器
-    public entry fun check_in(
+    entry fun check_in(
         promise: &mut Promise,
         clock: &Clock,
         ctx: &mut TxContext
@@ -91,7 +91,7 @@ module classmate_vault::promise;
     }
 
     /// 领取赠款（超时后由受益人领取）
-    public entry fun claim_gift(
+    entry fun claim_gift(
         promise: &mut Promise,
         coin: Coin<SUI>,
         clock: &Clock,
