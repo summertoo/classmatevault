@@ -1,7 +1,6 @@
 module classmate_vault::classmate;
     use sui::event;
     use std::string::String;
-    use sui::clock::{Self, Clock};
 
     /// 班级信息
     public struct Classroom has key, store {
@@ -70,9 +69,10 @@ module classmate_vault::classmate;
         encrypted_contact: vector<u8>,
         ctx: &mut TxContext
     ) {
+        let classroom_id = object::id_address(classroom);
         let student = Student {
             id: object::new(ctx),
-            classroom_id: object::id_from_address(object::borrow_id(classroom)),
+            classroom_id,
             student_address: ctx.sender(),
             encrypted_name,
             encrypted_student_id,
@@ -82,7 +82,7 @@ module classmate_vault::classmate;
         classroom.member_count = classroom.member_count + 1;
 
         event::emit(StudentAdded {
-            classroom_id: object::id_from_address(object::borrow_id(classroom)),
+            classroom_id,
             student_address: ctx.sender(),
         });
 
