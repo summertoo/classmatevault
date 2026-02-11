@@ -266,6 +266,28 @@ ruok = "0x0"
 - 移除 `create_promise` 的 `public` 修饰符：`entry fun` 默认为 public
 
 ---
+
+### 2026-02-11 - 修复 coin::value 参数类型错误
+**日期：** 2026-02-11
+
+**提示词：**
+```
+错误渐渐增多了？ error[E04007]: incompatible types
+    ┌─ .\sources\promise.move:50:22
+    │
+ 50 │         let amount = coin::value(coin);
+    │                      ^^^^^^^^^^^^^^^^^ Invalid call of 'sui::coin::value'. Invalid argument for parameter 'self'
+```
+
+**用途：** 修复 coin::value 函数调用参数类型
+
+**模型：** glm-4.7
+
+**结果：**
+- 修改 `coin::value(coin)` 为 `coin::value(&coin)`
+- `coin::value` 需要引用类型 `&Coin<T>`，不能直接传递值
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
