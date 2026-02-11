@@ -321,6 +321,47 @@ createRoot(document.getElementById('root')!).render(
 ```
 
 ---
+
+### 2026-02-11 - 修复 SuiClientContext 缺失错误
+**日期：** 2026-02-11
+
+**提示词：**
+```
+还是有报错 Uncaught Error: Could not find SuiClientContext. Ensure that you have set up the SuiClientProvider
+```
+
+**用途：** 修复前端 SuiClientContext 缺失错误
+
+**模型：** glm-4.7
+
+**结果：**
+- 添加 SuiClientProvider 包裹应用
+- 从 NETWORK_CONFIG 获取网络配置
+- 创建 Providers 组件统一管理提供者
+
+```tsx
+import { WalletProvider, SuiClientProvider } from '@mysten/dapp-kit'
+import { NETWORK_CONFIG } from './utils/config'
+
+function Providers({ children }: { children: React.ReactNode }) {
+  const networks = {
+    testnet: { url: NETWORK_CONFIG.testnet.fullnode },
+    mainnet: { url: NETWORK_CONFIG.mainnet.fullnode },
+  }
+
+  return (
+    <SuiClientProvider networks={networks} defaultNetwork="testnet">
+      <WalletProvider autoConnect={true}>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </WalletProvider>
+    </SuiClientProvider>
+  )
+}
+```
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
