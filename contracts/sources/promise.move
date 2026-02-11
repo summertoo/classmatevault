@@ -2,6 +2,7 @@ module classmate_vault::promise;
     use sui::coin::{Self, Coin};
     use sui::sui::SUI;
     use sui::clock::Clock;
+    use sui::event;
 
     /// 生前赠款承诺
     public struct Promise has key, store {
