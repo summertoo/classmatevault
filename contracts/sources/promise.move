@@ -1,5 +1,5 @@
 module classmate_vault::promise;
-    use sui::coin::Coin;
+    use sui::coin::{Self, Coin};
     use sui::sui::SUI;
     use sui::clock::Clock;
     use sui::event;
@@ -40,7 +40,7 @@ module classmate_vault::promise;
     }
 
     /// 创建生前赠款承诺
-    public entry fun create_promise(
+    entry fun create_promise(
         beneficiary: address,
         check_in_interval: u64,
         coin: Coin<SUI>,
