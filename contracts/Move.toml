@@ -1,0 +1,10 @@
+[package]
+name = "classmate_vault"
+version = "0.0.1"
+upgradeable = false
+
+[dependencies]
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
+
+[addresses]
+classmate_vault = "0x0"
