@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { WalletProvider, SuiClientProvider } from '@mysten/dapp-kit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -7,7 +6,14 @@ import App from './App.tsx'
 import './index.css'
 import './i18n'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+})
 
 function Providers({ children }: { children: React.ReactNode }) {
   const networks = {
@@ -18,7 +24,7 @@ function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <SuiClientProvider networks={networks} defaultNetwork="testnet">
-        <WalletProvider autoConnect={true}>
+        <WalletProvider>
           {children}
         </WalletProvider>
       </SuiClientProvider>
@@ -27,9 +33,7 @@ function Providers({ children }: { children: React.ReactNode }) {
 }
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Providers>
-      <App />
-    </Providers>
-  </StrictMode>,
+  <Providers>
+    <App />
+  </Providers>
 )

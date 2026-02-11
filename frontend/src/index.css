@@ -8,3 +8,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Fix for dropdown options */
+select option {
+  background-color: #6b21a8 !important;
+  color: white !important;
+}
+
+select option:checked {
+  background-color: #9333ea !important;
+}
