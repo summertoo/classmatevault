@@ -173,6 +173,32 @@ ruok = "0x0"
 - 合约源文件已正确添加到 Git 仓库
 
 ---
+
+### 2026-02-11 - 修复 Clock 使用错误和类型错误
+**日期：** 2026-02-11
+
+**提示词：**
+```
+还有报错，还有我发现你没有记录历史 prompt了 error[E04007]: incompatible types
+   ┌─ .\sources\classmate.move:75:27
+   │
+18 │         classroom_id: address,
+   │                       ------- Expected: 'address'
+   ·
+75 │             classroom_id: object::id_from_address(object::borrow_id(classroom)),
+   │                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Invalid argument for field 'classroom_id' for 'classmate_vault::classmate::Student'
+```
+
+**用途：** 修复 Move 2024 中的类型错误和 Clock 使用问题
+
+**模型：** glm-4.7
+
+**结果：**
+- 修复了 Clock 使用错误：Clock 必须作为 entry function 参数传入，不能通过 borrow_global_mut 获取
+- 修复了类型错误：使用 `object::id_address(classroom)` 获取地址，而不是 `object::id_from_address(object::borrow_id(classroom))`
+- 移除了不必要的 `use sui::clock::{Self, Clock};` 导入（classmate.move 不需要 Clock）
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
