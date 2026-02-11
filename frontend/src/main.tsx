@@ -15,13 +15,13 @@ function Providers({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <SuiClientProvider networks={networks} defaultNetwork="testnet">
-      <WalletProvider autoConnect={true}>
-        <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <SuiClientProvider networks={networks} defaultNetwork="testnet">
+        <WalletProvider autoConnect={true}>
           {children}
-        </QueryClientProvider>
-      </WalletProvider>
-    </SuiClientProvider>
+        </WalletProvider>
+      </SuiClientProvider>
+    </QueryClientProvider>
   )
 }
 
