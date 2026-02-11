@@ -1,5 +1,7 @@
 # ClassmateVault
 
+* https://classmatevault.vercel.app/
+
 A decentralized classroom contact directory and legacy gifting platform built on Sui blockchain.
 
 ![ClassmateVault](image.png)
