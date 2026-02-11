@@ -150,6 +150,29 @@ ruok = "0x0"
 - 前端构建验证通过
 
 ---
+
+### 2026-02-11 - 修正 Move 2024 合约语法
+**日期：** 2026-02-11
+
+**提示词：**
+```
+合约部分你确定是参考了 https://docs.sui.io/concepts/sui-move-concepts/move-2024-migration 这篇文章吗？
+```
+
+**用途：** 根据官方 Move 2024 迁移文档修正合约语法
+
+**模型：** glm-4.7
+
+**结果：**
+- 已查阅官方 Move 2024 迁移文档
+- 修正了以下问题：
+  - 为共享对象添加 `store` ability（Classroom、Student、Promise）
+  - 确保 event structs 使用 `public` 关键字（已有）
+  - 确认 Move.toml 使用 `edition = "2024.beta"`
+  - 确认依赖使用 Sui testnet-v1.60.0
+- 合约源文件已正确添加到 Git 仓库
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
