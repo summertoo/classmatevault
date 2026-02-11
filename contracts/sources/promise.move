@@ -1,7 +1,7 @@
 module classmate_vault::promise;
     use sui::coin::{Self, Coin};
     use sui::sui::SUI;
-    use sui::clock;
+    use sui::clock::Clock;
 
     /// 生前赠款承诺
     public struct Promise has key, store {
@@ -43,6 +43,7 @@ module classmate_vault::promise;
         beneficiary: address,
         check_in_interval: u64,
         coin: Coin<SUI>,
+        clock: &Clock,
         ctx: &mut TxContext
     ) {
         let amount = coin.value();
@@ -52,7 +53,7 @@ module classmate_vault::promise;
             beneficiary,
             amount,
             check_in_interval,
-            last_check_in: clock::timestamp_ms(clock::borrow_global_mut(clock::Clock)),
+            last_check_in: clock.timestamp_ms(),
             is_claimed: false,
         };
 
@@ -73,12 +74,13 @@ module classmate_vault::promise;
     /// 签到，重置计时器
     public entry fun check_in(
         promise: &mut Promise,
+        clock: &Clock,
         ctx: &mut TxContext
     ) {
         assert!(!promise.is_claimed, 0);
         assert!(ctx.sender() == promise.creator, 1);
 
-        promise.last_check_in = clock::timestamp_ms(clock::borrow_global_mut(clock::Clock));
+        promise.last_check_in = clock.timestamp_ms();
 
         event::emit(CheckedIn {
             promise_id: object::id_address(promise),
@@ -91,12 +93,13 @@ module classmate_vault::promise;
     public entry fun claim_gift(
         promise: &mut Promise,
         coin: Coin<SUI>,
+        clock: &Clock,
         ctx: &mut TxContext
     ) {
         assert!(!promise.is_claimed, 0);
         assert!(ctx.sender() == promise.beneficiary, 2);
 
-        let current_time = clock::timestamp_ms(clock::borrow_global_mut(clock::Clock));
+        let current_time = clock.timestamp_ms();
         let elapsed = current_time - promise.last_check_in;
         let interval_ms = promise.check_in_interval * 1000;
 
@@ -115,11 +118,11 @@ module classmate_vault::promise;
     }
 
     /// 检查是否可以领取
-    public fun can_claim(promise: &Promise): bool {
+    public fun can_claim(promise: &Promise, clock: &Clock): bool {
         if (promise.is_claimed) {
             return false
         };
-        let current_time = clock::timestamp_ms(clock::borrow_global(clock::Clock));
+        let current_time = clock.timestamp_ms();
         let elapsed = current_time - promise.last_check_in;
         let interval_ms = promise.check_in_interval * 1000;
         elapsed >= interval_ms
@@ -138,8 +141,8 @@ module classmate_vault::promise;
     }
 
     /// 获取剩余时间（秒）
-    public fun get_remaining_time(promise: &Promise): u64 {
-        let current_time = clock::timestamp_ms(clock::borrow_global(clock::Clock));
+    public fun get_remaining_time(promise: &Promise, clock: &Clock): u64 {
+        let current_time = clock.timestamp_ms();
         let elapsed = current_time - promise.last_check_in;
         let interval_ms = promise.check_in_interval * 1000;
         if (elapsed >= interval_ms) {

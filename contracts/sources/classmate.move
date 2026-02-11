@@ -1,6 +1,7 @@
 module classmate_vault::classmate;
     use sui::event;
-    use sui::string::String;
+    use std::string::String;
+    use sui::clock::{Self, Clock};
 
     /// 班级信息
     public struct Classroom has key, store {
