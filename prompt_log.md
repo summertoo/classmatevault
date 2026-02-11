@@ -221,6 +221,29 @@ ruok = "0x0"
 - 修复了 `event::emit` 无法解析的错误
 
 ---
+
+### 2026-02-11 - 修复编译警告
+**日期：** 2026-02-11
+
+**提示词：**
+```
+还有一些编译警告  warning[W09001]: unused alias
+  ┌─ .\sources\promise.move:2:21
+  │
+2 │     use sui::coin::{Self, Coin};
+  │                     ^^^^ Unused 'use' of alias 'coin'. Consider removing it
+```
+
+**用途：** 修复 Move 编译警告
+
+**模型：** glm-4.7
+
+**结果：**
+- 移除未使用的 `Self` 别名：`use sui::coin::Coin;`
+- 移除不必要的 `public` 修饰符：`entry fun` 默认即为 public
+- 修复了 `coin.value()` 为 `coin::value(coin)` 避免方法语法问题
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
