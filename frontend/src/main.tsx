@@ -4,6 +4,7 @@ import { WalletProvider, SuiClientProvider } from '@mysten/dapp-kit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NETWORK_CONFIG } from './utils/config'
 import App from './App.tsx'
+import './index.css'
 import './i18n'
 
 const queryClient = new QueryClient()
