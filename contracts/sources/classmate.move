@@ -1,4 +1,4 @@
-module classmate_vault::classmate {
+module classmate_vault::classmate;
     use sui::event;
 
     /// 班级信息

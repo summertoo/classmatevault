@@ -1,4 +1,4 @@
-module classmate_vault::promise {
+module classmate_vault::promise;
     use sui::coin::{Self, Coin};
     use sui::sui::SUI;
     use sui::clock;
