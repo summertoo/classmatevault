@@ -148,4 +148,3 @@ module classmate_vault::promise;
             (interval_ms - elapsed) / 1000
         }
     }
-}

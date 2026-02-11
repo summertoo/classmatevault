@@ -1,5 +1,6 @@
 module classmate_vault::classmate;
     use sui::event;
+    use sui::string::String;
 
     /// 班级信息
     public struct Classroom has key, store {
@@ -121,4 +122,3 @@ module classmate_vault::classmate;
     public fun get_student_address(student: &Student): address {
         student.student_address
     }
-}
