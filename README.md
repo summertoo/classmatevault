@@ -37,12 +37,8 @@ cd classmate
 
 2. Install dependencies:
 ```bash
-# Install contract dependencies
-cd contracts
-npm install
-
 # Install frontend dependencies
-cd ../frontend
+cd frontend
 npm install
 ```
 
