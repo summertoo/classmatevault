@@ -413,6 +413,35 @@ import './index.css'  // 添加这一行
 ```
 
 ---
+
+### 2026-02-11 - 修复 Tailwind CSS v4 样式未加载
+**日期：** 2026-02-11
+
+**提示词：**
+```
+我刷新了页面，还是毫无样式， Tailwind CSS是不是要打什么命令启动一下？
+```
+
+**用途：** 修复 Tailwind CSS v4 样式未加载问题
+
+**模型：** glm-4.7
+
+**结果：**
+- 发现项目使用 Tailwind CSS v4.1
+- 更新为 v4 新语法：`@import "tailwindcss";` 替代 `@tailwind base/components/utilities`
+- CSS 文件从 0.77 kB 增加到 13.94 kB，样式正常加载
+
+```css
+/* Tailwind v3 语法 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tailwind v4 语法 */
+@import "tailwindcss";
+```
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
