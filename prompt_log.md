@@ -113,6 +113,43 @@ Write the complete content to the `AGENTS.md` file. The output must be well-form
 - 前端构建验证通过
 
 ---
+
+### 2026-02-11 - 完成 Move 2024 合约更新和前端页面开发
+**日期：** 2026-02-11
+
+**提示词：**
+```
+看到由于时间限制，还有些功能没有实现，请继续，另我发现sui move合约部分并未按2024新语法写，请参考我提供的 [package]
+name = "ruok"
+version = "0.0.1"
+edition = "2024.beta"
+
+[dependencies]
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "testnet-v1.60.0" }
+
+[dev-dependencies]
+
+[addresses]
+ruok = "0x0"
+---
+对应做调整
+```
+
+**用途：** 更新 Move 合约为 2024 新语法，完成剩余前端页面开发
+
+**模型：** glm-4.7
+
+**结果：**
+- 已更新 Move.toml 为 Move 2024.beta 语法
+- 已更新 Move 合约（classmate.move 和 promise.move）使用 2024 新语法
+- 已完成前端页面开发：
+  - ClassroomPage.tsx - 班级管理页面
+  - ContactsPage.tsx - 通讯录页面
+  - PromisePage.tsx - 生前赠款页面
+  - CheckInPage.tsx - 签到页面
+- 前端构建验证通过
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
