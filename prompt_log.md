@@ -391,6 +391,28 @@ function Providers({ children }: { children: React.ReactNode }) {
 ```
 
 ---
+
+### 2026-02-11 - 修复 CSS 样式未加载问题
+**日期：** 2026-02-11
+
+**提示词：**
+```
+可以看见画面了，但样式完全没有了，是否是css加载出了问题？
+```
+
+**用途：** 修复前端 CSS 样式未加载问题
+
+**模型：** glm-4.7
+
+**结果：**
+- 在 main.tsx 中添加缺失的 CSS 导入：`import './index.css'`
+- Tailwind CSS 样式现在应该正常显示
+
+```tsx
+import './index.css'  // 添加这一行
+```
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
