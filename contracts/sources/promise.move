@@ -47,7 +47,7 @@ module classmate_vault::promise;
         clock: &Clock,
         ctx: &mut TxContext
     ) {
-        let amount = coin::value(coin);
+        let amount = coin::value(&coin);
         let promise = Promise {
             id: object::new(ctx),
             creator: ctx.sender(),
