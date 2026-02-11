@@ -244,6 +244,28 @@ ruok = "0x0"
 - 修复了 `coin.value()` 为 `coin::value(coin)` 避免方法语法问题
 
 ---
+
+### 2026-02-11 - 修复 coin::value 调用错误
+**日期：** 2026-02-11
+
+**提示词：**
+```
+又有一个错误  error[E03006]: unexpected name in this position
+   ┌─ .\sources\promise.move:50:22
+   │
+50 │         let amount = coin::value(coin);
+   │                      ^^^^ Could not resolve the name 'coin'
+```
+
+**用途：** 修复 coin 模块导入问题
+
+**模型：** glm-4.7
+
+**结果：**
+- 恢复 `Self` 别名导入：`use sui::coin::{Self, Coin};`
+- 移除 `create_promise` 的 `public` 修饰符：`entry fun` 默认为 public
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
