@@ -199,6 +199,28 @@ ruok = "0x0"
 - 移除了不必要的 `use sui::clock::{Self, Clock};` 导入（classmate.move 不需要 Clock）
 
 ---
+
+### 2026-02-11 - 修复 event 导入缺失错误
+**日期：** 2026-02-11
+
+**提示词：**
+```
+还有些编译报错，记得更新提示词日志 error[E03006]: unexpected name in this position
+   ┌─ .\sources\promise.move:62:9
+   │
+62 │         event::emit(PromiseCreated {
+   │         ^^^^^ Could not resolve the name 'event'
+```
+
+**用途：** 修复 promise.move 中缺少 event 模块导入的编译错误
+
+**模型：** glm-4.7
+
+**结果：**
+- 添加了 `use sui::event;` 导入到 promise.move
+- 修复了 `event::emit` 无法解析的错误
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
