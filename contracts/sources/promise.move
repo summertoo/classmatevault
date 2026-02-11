@@ -1,10 +1,6 @@
 module classmate_vault::promise {
     use sui::coin::{Self, Coin};
     use sui::sui::SUI;
-    use sui::object::{Self, UID};
-    use sui::tx_context;
-    use sui::transfer;
-    use sui::event;
     use sui::clock;
 
     /// 生前赠款承诺
@@ -47,12 +43,12 @@ module classmate_vault::promise {
         beneficiary: address,
         check_in_interval: u64,
         coin: Coin<SUI>,
-        ctx: &mut tx_context::TxContext
+        ctx: &mut TxContext
     ) {
-        let amount = coin::value(&coin);
+        let amount = coin.value();
         let promise = Promise {
             id: object::new(ctx),
-            creator: tx_context::sender(ctx),
+            creator: ctx.sender(),
             beneficiary,
             amount,
             check_in_interval,
@@ -64,29 +60,29 @@ module classmate_vault::promise {
 
         event::emit(PromiseCreated {
             promise_id,
-            creator: tx_context::sender(ctx),
+            creator: ctx.sender(),
             beneficiary,
             amount,
             check_in_interval,
         });
 
         transfer::share_object(promise);
-        transfer::public_transfer(coin, tx_context::sender(ctx));
+        transfer::public_transfer(coin, ctx.sender());
     }
 
     /// 签到，重置计时器
     public entry fun check_in(
         promise: &mut Promise,
-        ctx: &mut tx_context::TxContext
+        ctx: &mut TxContext
     ) {
         assert!(!promise.is_claimed, 0);
-        assert!(tx_context::sender(ctx) == promise.creator, 1);
+        assert!(ctx.sender() == promise.creator, 1);
 
         promise.last_check_in = clock::timestamp_ms(clock::borrow_global_mut(clock::Clock));
 
         event::emit(CheckedIn {
             promise_id: object::id_address(promise),
-            user: tx_context::sender(ctx),
+            user: ctx.sender(),
             timestamp: promise.last_check_in,
         });
     }
@@ -95,10 +91,10 @@ module classmate_vault::promise {
     public entry fun claim_gift(
         promise: &mut Promise,
         coin: Coin<SUI>,
-        ctx: &mut tx_context::TxContext
+        ctx: &mut TxContext
     ) {
         assert!(!promise.is_claimed, 0);
-        assert!(tx_context::sender(ctx) == promise.beneficiary, 2);
+        assert!(ctx.sender() == promise.beneficiary, 2);
 
         let current_time = clock::timestamp_ms(clock::borrow_global_mut(clock::Clock));
         let elapsed = current_time - promise.last_check_in;
@@ -110,12 +106,12 @@ module classmate_vault::promise {
 
         event::emit(GiftClaimed {
             promise_id: object::id_address(promise),
-            beneficiary: tx_context::sender(ctx),
+            beneficiary: ctx.sender(),
             amount: promise.amount,
             timestamp: current_time,
         });
 
-        transfer::public_transfer(coin, tx_context::sender(ctx));
+        transfer::public_transfer(coin, ctx.sender());
     }
 
     /// 检查是否可以领取

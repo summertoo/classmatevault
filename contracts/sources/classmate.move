@@ -1,7 +1,4 @@
 module classmate_vault::classmate {
-    use sui::object::{Self, UID};
-    use sui::tx_context;
-    use sui::transfer;
     use sui::event;
 
     /// 班级信息
@@ -41,13 +38,13 @@ module classmate_vault::classmate {
     public fun create_classroom(
         school: String,
         class_name: String,
-        ctx: &mut tx_context::TxContext
+        ctx: &mut TxContext
     ) {
         let classroom = Classroom {
             id: object::new(ctx),
             school,
             class_name,
-            creator: tx_context::sender(ctx),
+            creator: ctx.sender(),
             member_count: 0,
         };
 
@@ -55,7 +52,7 @@ module classmate_vault::classmate {
 
         event::emit(ClassroomCreated {
             classroom_id,
-            creator: tx_context::sender(ctx),
+            creator: ctx.sender(),
             school: classroom.school,
             class_name: classroom.class_name,
         });
@@ -69,12 +66,12 @@ module classmate_vault::classmate {
         encrypted_name: vector<u8>,
         encrypted_student_id: vector<u8>,
         encrypted_contact: vector<u8>,
-        ctx: &mut tx_context::TxContext
+        ctx: &mut TxContext
     ) {
         let student = Student {
             id: object::new(ctx),
             classroom_id: object::id_from_address(object::borrow_id(classroom)),
-            student_address: tx_context::sender(ctx),
+            student_address: ctx.sender(),
             encrypted_name,
             encrypted_student_id,
             encrypted_contact,
@@ -84,7 +81,7 @@ module classmate_vault::classmate {
 
         event::emit(StudentAdded {
             classroom_id: object::id_from_address(object::borrow_id(classroom)),
-            student_address: tx_context::sender(ctx),
+            student_address: ctx.sender(),
         });
 
         transfer::share_object(student);
