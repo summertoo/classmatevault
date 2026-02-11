@@ -362,6 +362,35 @@ function Providers({ children }: { children: React.ReactNode }) {
 ```
 
 ---
+
+### 2026-02-11 - 修复 QueryClientProvider 顺序错误
+**日期：** 2026-02-11
+
+**提示词：**
+```
+还是报错 Uncaught Error: No QueryClient set, use QueryClientProvider to set one
+```
+
+**用途：** 修复前端 QueryClientProvider 顺序问题
+
+**模型：** glm-4.7
+
+**结果：**
+- 调整提供者顺序：QueryClientProvider 必须在外层
+- WalletProvider 内部使用 useMutation，需要 QueryClient
+
+```tsx
+// 正确顺序
+<QueryClientProvider client={queryClient}>
+  <SuiClientProvider networks={networks} defaultNetwork="testnet">
+    <WalletProvider autoConnect={true}>
+      {children}
+    </WalletProvider>
+  </SuiClientProvider>
+</QueryClientProvider>
+```
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
