@@ -288,6 +288,39 @@ ruok = "0x0"
 - `coin::value` 需要引用类型 `&Coin<T>`，不能直接传递值
 
 ---
+
+### 2026-02-11 - 修复前端 WalletProvider 缺失错误
+**日期：** 2026-02-11
+
+**提示词：**
+```
+前端运行提示报错  Uncaught Error: Could not find WalletContext. Ensure that you have set up the WalletProvider.
+```
+
+**用途：** 修复前端钱包连接错误
+
+**模型：** glm-4.7
+
+**结果：**
+- 在 main.tsx 中添加 WalletProvider
+- 移除未使用的 networkConfig 导入
+- 前端构建验证通过
+
+```tsx
+import { WalletProvider } from '@mysten/dapp-kit'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <WalletProvider autoConnect={true}>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </WalletProvider>
+  </StrictMode>,
+)
+```
+
+---
 - 所有敏感信息已进行脱敏处理
 - 每次使用 iflow CLI 后，请及时在此文件中记录
 - 此文件将用于黑客松的 AI 使用披露
