@@ -5,9 +5,14 @@
 A decentralized classroom contact directory and legacy gifting platform built on Sui blockchain.
 
 ![ClassmateVault](image.png)
-## Features
-### Vibe Coding by iflow(glm4.7)
+## AI Usage Disclosure
+### Vibe Coding by iflow 
 ![alt text](08ef1cf185d0ef4b8b772f9f9a68ba69.png)
+### Model Name ：GLM-4.7
+### Prompt Log ：[Prompt Log](prompt_log.md)
+
+ 
+## Features :
 - **📚 Encrypted Classroom Contacts** - Store and manage classroom contact information with encryption
 - **💝 Legacy Gifting** - Create promises with automatic check-in to transfer assets to beneficiaries
 - **🔗 Fully Decentralized** - Built on Sui blockchain with Move 2024 smart contracts
